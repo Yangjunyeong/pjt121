@@ -180,7 +180,7 @@
         font-family: sans-serif;
     }
     .home{
-        height:3000px;
+        height:3500px;
     }
     header{
         width: 70%;

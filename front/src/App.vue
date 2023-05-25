@@ -1,52 +1,63 @@
 <template>
-  <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-      <div class="container-fluid">
-        <router-link :to="{name: 'home'}" class="navbar-brand"><img src="@/assets/byeongjin.jpg" alt="병진이" class="rounded" ></router-link>
-        <router-link :to="{name: 'home'}" class="navbar-brand">오태식의 해바라기 영화</router-link>
-  
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <router-link v-if="!isLogin" class="nav-link" :to="{ name: 'SignUpView' }"  >SignUp</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link v-if="!isLogin" class="nav-link" :to="{ name: 'LogInView' }" >LogIn</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'MoviesView' }"  >Movies</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'RandomView' }"  >Random</router-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" v-if="isLogin" @click="logout">Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <div id="app" >
     
-    <router-view class="p-0"/>
-<div class="b-example-divider"></div>
+      
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+          <div class="container-fluid">
+            <router-link :to="{name: 'home'}" class="navbar-brand"><img src="@/assets/byeongjin.jpg" alt="병진이" class="rounded" ></router-link>
+            <router-link :to="{name: 'home'}" class="navbar-brand">오태식의 해바라기 영화</router-link>
+            
+            
 
-<div class="container">
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><router-link :to="{name: 'home'}" class="nav-link px-2 text-muted">Home</router-link></li>
-      <li class="nav-item"><router-link :to="{name: 'MoviesView'}" class="nav-link px-2 text-muted">Movies</router-link></li>
-      <li class="nav-item"><router-link :to="{name: 'RandomView'}" class="nav-link px-2 text-muted">RandomPick</router-link></li>
-
-    </ul>
-    <p class="text-center text-muted">&copy; 2023 Company, OhHaeYeong</p>
-  </footer>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+              <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <router-link v-if="!isLogin" class="nav-link" :to="{ name: 'SignUpView' }"  >SignUp</router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link v-if="!isLogin" class="nav-link" :to="{ name: 'LogInView' }" >LogIn</router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'MoviesView' }"  >Movies</router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'RandomView' }"  >Random</router-link>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" v-if="isLogin" @click="logout">Logout</a>
+                  </li>
+                </ul>
+              </div>
+          </div>
+        </nav>
+        
+          
+        
+        
+            
+            <router-view class="p-0"/>
+          
+          <footer>
+              <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><router-link :to="{name: 'home'}" class="nav-link px-2 text-muted">Home</router-link></li>
+                <li class="nav-item"><router-link :to="{name: 'MoviesView'}" class="nav-link px-2 text-muted">Movies</router-link></li>
+                <li class="nav-item"><router-link :to="{name: 'RandomView'}" class="nav-link px-2 text-muted">RandomPick</router-link></li>
+                
+              </ul>
+              <p class="text-center text-muted">&copy; 2023 Company, OhHaeYeong</p>
+              <audio ref="audioPlayer" src="@/assets/sunflowersong.mp3" loop autoplay controls volume="0.5"></audio>
+            </footer>
+          
+       
+      
+  
 </div>
 
 
-  </div>
+
 </template>
 
 <script>
@@ -61,14 +72,25 @@ export default {
   created() {
 
   },
+  mounted() {
+    const audio = this.$refs.audioPlayer;
+    audio.volume = 0.4; // 초기 볼륨 설정 (0.5는 절반 크기)
+  },
   methods: {
     logout() {
       this.$store.dispatch('logout');
+    },
+    playAudio() {
+      const audio = this.$refs.audioPlayer;
+      audio.play(); // 오디오 재생
     }
   },
 };
 </script>
 <style>
+.content-wrapper {
+  min-height: calc(100vh - 100px - 50px); /* 푸터의 높이와 원하는 여백만큼 빼줌 */
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -76,7 +98,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: black;
-  ;
+  
 }
 
 nav {
@@ -107,12 +129,13 @@ nav img {
   user-select: none;
 }
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+
+@media (max-width: 767px) {
+  .router-view-container {
+    height: calc(100vh - 100px - 50px); /* 헤더와 푸터의 높이와 여백만큼 빼줌 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
   }
 }
-
 .b-example-divider {
   height: 3rem;
   background-color: rgba(0, 0, 0, .1);
@@ -150,4 +173,17 @@ nav img {
   -webkit-overflow-scrolling: touch;
 }
 
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
 </style>

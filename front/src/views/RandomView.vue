@@ -15,16 +15,56 @@
     <!-- 랜덤 영화 출력 -->
 
     <div v-if="!first">
-      <!-- <div v-if="randomMovie" >
+      <div v-if="randomMovie" >
         <div class="row">
-        <img class="movie-card" v-bind:src="`https://image.tmdb.org/t/p/original${randomMovie.poster_path}`" alt="movie poster" />
+          <div class="col-6"> 
+            <img class="movie-card" v-bind:src="`https://image.tmdb.org/t/p/original${randomMovie.poster_path}`" alt="movie poster" />
+          </div>
+          
+          
+          <div class= "col-5 text-white">
+            <br>
+            <br>
+            <h3 >{{ randomMovie.title }}</h3>
+            <br>
+            <p> 평점: {{randomMovie.vote_average}}</p>
+            <br>
+            <p v-if="showFullOverview">{{ randomMovie.overview ? randomMovie.overview : '줄거리가 없네... 오태식이 슬퍼서 어쩌냐'}}</p>
+            <p v-else>{{ randomMovie.overview.substring(0, 150) }}...</p>
+            <br>
+            <button class="btn btn-outline-dark" @click="toggleOverview">{{ showFullOverview ? '간략히 보기' : '더 보기' }}</button>
+          
+            <div>
+              <div class="card-group">
+                <div class="card text-bg-success ">
+                  <img src="@/assets/byeong.jpg" class="card-img-top" alt="...">
+                  <!-- <div class="card-body"> -->
+                    <h5 class="text-bg-success p-3">고맙다... 태식아</h5>
+                    <router-link class="text-bg-success p-3" :to="{ name: 'DetailView', params:{ id: randomMovie.id} }">영화 자세히 보기</router-link>
+                    
+                  <!-- </div> -->
+                </div>
+                <div class="card text-bg-danger">
+                  <img src="@/assets/naga.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">병진이형, 나가</h5>
+                    <h5 class="card-title">나가, 뒤지기 싫으면</h5>
+                    <button class="text-bg-danger" @click="fetchRandomMovie">영화 다시 추천 받기</button>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          
+          </div>
+
 
         </div>
-        <h3 class="text-white">{{ randomMovie.title }}</h3>
       </div>
-      <div v-else>No movie available</div> -->
-      <div class="masthead" :style="randomMoviePosterURL" >
-        <div class="container">
+      <div v-else>No movie available</div>
+      <!-- <div class="masthead" :style="randomMoviePosterURL" >
+        <div class="container bg-dark">
           <div class="masthead-subheading">Welcome To Our Studio!</div>
           <div class="masthead-heading text-uppercase">
             It's Nice To Meet You
@@ -33,18 +73,23 @@
             >Tell Me More</a
           >
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- 랜덤 영화 가져오기 버튼 -->
-    <select v-model="selectedGenre">
-      <option option value="">전체</option>
-      <option v-for="genre in genres" :key="genre.id" :value="genre.id">
-        {{ genre.name }}
-      </option>
-    </select>
-
-    <button @click="fetchRandomMovie">랜덤 영화 추출</button>
+    <div class="d-flex justify-content-center " style="width: 100%">
+      <div class="">
+      <select class="form-select form-select-sm " v-model="selectedGenre">
+        <option value="">전체</option>
+        <option v-for="genre in genres" :key="genre.id" :value="genre.id">
+          {{ genre.name }}
+        </option>
+      </select>
+      </div>
+    </div>
+      <div v-if="first">
+        <button class="btn btn-primary" @click="fetchRandomMovie">랜덤 영화 추출</button>
+      </div>
   </div>
 </template>
 
@@ -56,6 +101,7 @@ export default {
     return {
       first: true,
       selectedGenre: null,
+      showFullOverview: false,
     };
   },
   computed: {
@@ -64,6 +110,7 @@ export default {
       return this.$store.state.genres;
     },
     randomMovie() {
+      console.log(this.$store.state.randomMovie)
       return this.$store.state.randomMovie;
     },
     randomMoviePosterURL() {
@@ -87,6 +134,9 @@ export default {
         this.$store.dispatch("getRandomMovie", this.selectedGenre);
       }
     },
+    toggleOverview() {
+      this.showFullOverview = !this.showFullOverview;
+    },
   },
   created() {
     this.$store.dispatch("fetchGenres");
@@ -96,7 +146,8 @@ export default {
 
 <style>
 .movie-card {
-  width: 200px;
+  height:600px;
+  width: 400px;
   margin: 10px;
 }
 div.masthead {

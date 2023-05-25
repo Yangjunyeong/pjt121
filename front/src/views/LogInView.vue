@@ -17,11 +17,27 @@
             <input v-model="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">나다 20bird끼야</button>
           <hr class="my-4">
-          <small class="text-muted">태식아 아이디랑 비밀번호를 누르고</small>
-          <br>
-          <small class="text-muted">로그인 눌러라</small>
+            <div class="row">
+              <div class="col-4">
+                <img src="@/assets/ah.png" alt="awd" >
+
+              </div>
+              <div class="col-8">
+                <small class="text-muted">내가 10년 동안 울면서 </small>
+              <br>
+                <small class="text-muted">후회하고 다짐 했는데</small>
+              <br>
+                <small class="text-muted">너넨 로그인 안하면 </small>
+              <br>
+                <small class="text-muted"> 안됐어..</small>
+              </div>
+
+              </div>
+          
+          
+        
         </form>
       </div>
     </div>
